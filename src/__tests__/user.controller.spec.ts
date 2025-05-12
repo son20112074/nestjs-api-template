@@ -6,7 +6,7 @@ import { mockUser, mockCreateUserDto, mockUpdateUserDto } from '../__mocks__/use
 import { User } from '../core/domain/entities/user.entity';
 import { JwtAuthGuard } from '../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../shared/guards/roles.guard';
-import { mockJwtAuthGuard, mockRolesGuard, mockExecutionContext } from '../__mocks__/auth.mock';
+import { mockJwtAuthGuard, mockRolesGuard } from '../__mocks__/auth.mock';
 
 describe('UserController', () => {
   let controller: UserController;
@@ -56,9 +56,7 @@ describe('UserController', () => {
     it('should throw ConflictException when email already exists', async () => {
       service.create.mockRejectedValue(new ConflictException('Email already exists'));
 
-      await expect(controller.createUser(mockCreateUserDto)).rejects.toThrow(
-        ConflictException,
-      );
+      await expect(controller.createUser(mockCreateUserDto)).rejects.toThrow(ConflictException);
       expect(service.create).toHaveBeenCalledWith(mockCreateUserDto);
     });
   });
@@ -88,9 +86,7 @@ describe('UserController', () => {
     it('should throw NotFoundException when user not found', async () => {
       service.findById.mockRejectedValue(new NotFoundException('User not found'));
 
-      await expect(controller.findOne('nonexistent')).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(controller.findOne('nonexistent')).rejects.toThrow(NotFoundException);
       expect(service.findById).toHaveBeenCalledWith('nonexistent');
     });
   });
@@ -109,9 +105,9 @@ describe('UserController', () => {
     it('should throw NotFoundException when user not found', async () => {
       service.update.mockRejectedValue(new NotFoundException('User not found'));
 
-      await expect(
-        controller.updateUser('nonexistent', mockUpdateUserDto),
-      ).rejects.toThrow(NotFoundException);
+      await expect(controller.updateUser('nonexistent', mockUpdateUserDto)).rejects.toThrow(
+        NotFoundException,
+      );
       expect(service.update).toHaveBeenCalledWith('nonexistent', mockUpdateUserDto);
     });
 
@@ -136,10 +132,8 @@ describe('UserController', () => {
     it('should throw NotFoundException when user not found', async () => {
       service.delete.mockRejectedValue(new NotFoundException('User not found'));
 
-      await expect(controller.deleteUser('nonexistent')).rejects.toThrow(
-        NotFoundException,
-      );
+      await expect(controller.deleteUser('nonexistent')).rejects.toThrow(NotFoundException);
       expect(service.delete).toHaveBeenCalledWith('nonexistent');
     });
   });
-}); 
+});

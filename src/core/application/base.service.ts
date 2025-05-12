@@ -31,4 +31,4 @@ export abstract class BaseService<T extends BaseEntity> {
     await this.findById(id); // Verify entity exists
     await this.repository.delete(id);
   }
-} 
+}

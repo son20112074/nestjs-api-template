@@ -6,4 +6,4 @@ export interface JwtPayload {
   roles: Role[];
   iat?: number;
   exp?: number;
-} 
+}

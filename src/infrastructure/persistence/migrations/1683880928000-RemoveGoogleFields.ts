@@ -22,4 +22,4 @@ export class RemoveGoogleFields1683880928000 implements MigrationInterface {
       ADD COLUMN IF NOT EXISTS "googleRefreshToken" VARCHAR
     `);
   }
-} 
+}

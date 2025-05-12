@@ -43,7 +43,7 @@ export class UserService extends BaseService<User> {
     }
 
     const user = await super.update(id, updateUserDto);
-    
+
     // Don't return the password
     delete user.password;
     return user;
@@ -61,4 +61,4 @@ export class UserService extends BaseService<User> {
     const salt = await bcrypt.genSalt();
     return bcrypt.hash(password, salt);
   }
-} 
+}

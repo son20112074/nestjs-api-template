@@ -15,4 +15,4 @@ export interface IQueryOptions<T extends BaseEntity = any> {
   where?: FindOptionsWhere<T>;
   relations?: string[];
   order?: FindOptionsOrder<T>;
-} 
+}

@@ -37,7 +37,8 @@ export const mockUpdateUserDto: UpdateUserDto = {
 export const mockUserService = {
   create: async () => Promise.resolve(mockUser as User),
   findAll: async () => Promise.resolve([mockUser as User]),
-  findById: async (id: string) => Promise.resolve(mockUser as User),
-  update: async (id: string, dto: UpdateUserDto) => Promise.resolve({ ...mockUser, ...dto } as User),
-  delete: async (id: string) => Promise.resolve(undefined),
-}; 
+  findById: async (_id: string) => Promise.resolve(mockUser as User),
+  update: async (_id: string, dto: UpdateUserDto) =>
+    Promise.resolve({ ...mockUser, ...dto } as User),
+  delete: async (_id: string) => Promise.resolve(undefined),
+};

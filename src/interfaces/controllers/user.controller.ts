@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards, Query } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { UserService } from '../../core/application/services/user.service';
 import { CreateUserDto } from '../dtos/user/create-user.dto';
@@ -6,8 +6,7 @@ import { UpdateUserDto } from '../dtos/user/update-user.dto';
 import { User } from '../../core/domain/entities/user.entity';
 import { JwtAuthGuard } from '../../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/guards/roles.guard';
-import { Roles } from '../../shared/decorators/roles.decorator';
-import { Role } from '../../shared/decorators/roles.decorator';
+import { Roles, Role } from '../../shared/decorators/roles.decorator';
 
 @ApiTags('users')
 @Controller('users')
@@ -52,10 +51,7 @@ export class UserController {
   @ApiResponse({ status: 409, description: 'Email already exists' })
   @Roles(Role.ADMIN)
   @ApiBearerAuth()
-  async updateUser(
-    @Param('id') id: string,
-    @Body() updateUserDto: UpdateUserDto,
-  ): Promise<User> {
+  async updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
     return this.userService.update(id, updateUserDto);
   }
 
@@ -68,4 +64,4 @@ export class UserController {
   async deleteUser(@Param('id') id: string): Promise<void> {
     return this.userService.delete(id);
   }
-} 
+}

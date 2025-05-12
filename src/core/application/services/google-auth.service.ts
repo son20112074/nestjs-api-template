@@ -94,4 +94,4 @@ export class GoogleAuthService {
       throw new UnauthorizedException('Invalid Google token');
     }
   }
-} 
+}

@@ -1,4 +1,15 @@
-import { IsEmail, IsString, MinLength, IsOptional, IsEnum, IsArray, IsBoolean, IsUrl, IsObject, IsDate } from 'class-validator';
+import {
+  IsEmail,
+  IsString,
+  MinLength,
+  IsOptional,
+  IsEnum,
+  IsArray,
+  IsBoolean,
+  IsUrl,
+  IsObject,
+  IsDate,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Role } from '../../../shared/decorators/roles.decorator';
 import { Type } from 'class-transformer';
@@ -88,4 +99,4 @@ export class CreateUserDto {
   @IsOptional()
   @Type(() => Date)
   lastLoginAt?: Date;
-} 
+}

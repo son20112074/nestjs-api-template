@@ -26,4 +26,4 @@ import { JwtStrategy } from '../../infrastructure/auth/strategies/jwt.strategy';
   providers: [AuthService, GoogleAuthService, JwtStrategy],
   exports: [AuthService],
 })
-export class AuthModule {} 
+export class AuthModule {}

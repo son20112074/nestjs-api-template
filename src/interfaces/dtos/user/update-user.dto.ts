@@ -1,4 +1,15 @@
-import { IsEmail, IsString, MinLength, IsOptional, IsEnum, IsArray, IsBoolean, IsDate, IsObject, IsUrl } from 'class-validator';
+import {
+  IsEmail,
+  IsString,
+  MinLength,
+  IsOptional,
+  IsEnum,
+  IsArray,
+  IsBoolean,
+  IsDate,
+  IsObject,
+  IsUrl,
+} from 'class-validator';
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Role } from '../../../shared/decorators/roles.decorator';
 import { Type } from 'class-transformer';
@@ -148,4 +159,4 @@ export class UpdateUserDto {
   @IsObject()
   @IsOptional()
   preferences?: Record<string, any>;
-} 
+}

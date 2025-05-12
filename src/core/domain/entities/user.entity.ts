@@ -92,4 +92,4 @@ export class User extends BaseEntity {
       this.email = this.email.toLowerCase().trim();
     }
   }
-} 
+}

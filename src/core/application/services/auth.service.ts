@@ -32,12 +32,12 @@ export class AuthService {
 
   async login(loginDto: LoginDto): Promise<TokenResponseDto> {
     const user = await this.validateUser(loginDto.email, loginDto.password);
-    
+
     const tokens = await this.generateTokens(user);
-    
+
     // Update last login timestamp
     await this.userService.update(user.id, { lastLoginAt: new Date() } as UpdateUserDto);
-    
+
     return tokens;
   }
 
@@ -56,7 +56,7 @@ export class AuthService {
 
   async generateTokens(user: User): Promise<TokenResponseDto> {
     const payload = { sub: user.id, email: user.email, roles: user.roles };
-    
+
     const [accessToken, refreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, {
         secret: this.configService.get('jwt.secret'),
@@ -74,4 +74,4 @@ export class AuthService {
       expiresIn: parseInt(this.configService.get('jwt.expiresIn')),
     };
   }
-} 
+}

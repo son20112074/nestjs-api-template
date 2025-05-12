@@ -20,4 +20,4 @@ export class UserRepository extends BaseTypeOrmRepository<User> {
   async findByGoogleId(googleId: string): Promise<User | null> {
     return this.repository.findOne({ where: { googleId } });
   }
-} 
+}

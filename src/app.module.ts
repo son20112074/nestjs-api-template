@@ -12,7 +12,7 @@ import { AuthModule } from './interfaces/modules/auth.module';
       isGlobal: true,
       load: [appConfig, databaseConfig, jwtConfig],
     }),
-    
+
     // Database
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
@@ -28,4 +28,4 @@ import { AuthModule } from './interfaces/modules/auth.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {} 
+export class AppModule {}

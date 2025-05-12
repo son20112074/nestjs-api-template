@@ -35,4 +35,4 @@ export abstract class BaseTypeOrmRepository<T extends BaseEntity> implements IRe
     const where = { id } as FindOptionsWhere<T>;
     await this.repository.delete(where);
   }
-} 
+}

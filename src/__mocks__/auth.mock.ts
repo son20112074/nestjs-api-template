@@ -24,8 +24,8 @@ export class MockExecutionContext implements ExecutionContext {
     return 'http' as TContext;
   }
 
-  getHandler<TFunction extends Function = Function>(): TFunction {
-    return (() => {}) as unknown as TFunction;
+  getHandler<T = unknown>(): (...args: any[]) => T {
+    return () => ({}) as T;
   }
 
   getClass<TClass extends Type<any> = Type<any>>(): TClass {
@@ -59,9 +59,9 @@ export class MockExecutionContext implements ExecutionContext {
     return [] as T;
   }
 
-  getArgByIndex<T = any>(index: number): T {
+  getArgByIndex<T = any>(_index: number): T {
     return {} as T;
   }
 }
 
-export const mockExecutionContext = new MockExecutionContext(); 
+export const mockExecutionContext = new MockExecutionContext();

@@ -1,25 +1,33 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './shared/filters/http-exception.filter';
+import { TransformInterceptor } from './shared/interceptors/transform.interceptor';
+import { ValidationPipe as CustomValidationPipe } from './shared/pipes/validation.pipe';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
-  
-  // Global prefix
-  const apiPrefix = configService.get('app.apiPrefix');
-  app.setGlobalPrefix(apiPrefix);
 
-  // Validation
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true,
-    transform: true,
-    forbidNonWhitelisted: true,
-  }));
+  // Global Pipes
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      forbidNonWhitelisted: true,
+    }),
+    new CustomValidationPipe(),
+  );
 
-  // Swagger documentation
+  // Global Filters
+  app.useGlobalFilters(new HttpExceptionFilter());
+
+  // Global Interceptors
+  app.useGlobalInterceptors(new TransformInterceptor());
+
+  // Swagger Setup
   const config = new DocumentBuilder()
     .setTitle('Apero API')
     .setDescription('The Apero API description')
@@ -27,16 +35,16 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
-
-  // CORS
-  app.enableCors();
+  SwaggerModule.setup('api', app, document);
 
   // Start the server
-  const port = configService.get('app.port');
+  const port = configService.get<number>('app.port', 3000);
   await app.listen(port);
-  console.log(`Application is running on: http://localhost:${port}`);
-  console.log(`Swagger documentation is available at: http://localhost:${port}/docs`);
+
+  // Log server info
+  const logger = app.get('NestLogger');
+  logger.log(`Application is running on: ${await app.getUrl()}`);
+  logger.log(`Swagger documentation is available at: ${await app.getUrl()}/api`);
 }
 
-bootstrap(); 
+bootstrap();

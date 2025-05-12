@@ -22,4 +22,4 @@ export class RestoreGoogleFields1683880929000 implements MigrationInterface {
       DROP COLUMN IF EXISTS "googleRefreshToken"
     `);
   }
-} 
+}

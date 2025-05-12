@@ -14,4 +14,4 @@ export class TokenResponseDto {
 export class RefreshTokenDto {
   @ApiProperty()
   refreshToken: string;
-} 
+}

@@ -40,4 +40,4 @@ export class AuthController {
   async refreshToken(@Body() refreshTokenDto: RefreshTokenDto): Promise<TokenResponseDto> {
     return this.authService.refreshToken(refreshTokenDto.refreshToken);
   }
-} 
+}
