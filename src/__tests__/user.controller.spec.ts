@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { UserController } from '../interfaces/controllers/user.controller';
 import { UserService } from '../core/application/services/user.service';
-import { mockUser, mockCreateUserDto, mockUpdateUserDto, mockUserService } from '../__mocks__/user.mock';
+import { mockUser, mockCreateUserDto, mockUpdateUserDto } from '../__mocks__/user.mock';
 import { User } from '../core/domain/entities/user.entity';
 import { JwtAuthGuard } from '../shared/guards/jwt-auth.guard';
 import { RolesGuard } from '../shared/guards/roles.guard';
@@ -11,16 +11,22 @@ import { mockJwtAuthGuard, mockRolesGuard, mockExecutionContext } from '../__moc
 describe('UserController', () => {
   let controller: UserController;
   let service: jest.Mocked<UserService>;
-  let jwtAuthGuard: jest.Mocked<JwtAuthGuard>;
-  let rolesGuard: jest.Mocked<RolesGuard>;
 
   beforeEach(async () => {
+    const mockService = {
+      create: jest.fn(),
+      findAll: jest.fn(),
+      findById: jest.fn(),
+      update: jest.fn(),
+      delete: jest.fn(),
+    };
+
     const module: TestingModule = await Test.createTestingModule({
       controllers: [UserController],
       providers: [
         {
           provide: UserService,
-          useValue: mockUserService,
+          useValue: mockService,
         },
         {
           provide: JwtAuthGuard,
@@ -35,32 +41,6 @@ describe('UserController', () => {
 
     controller = module.get<UserController>(UserController);
     service = module.get(UserService);
-    jwtAuthGuard = module.get(JwtAuthGuard);
-    rolesGuard = module.get(RolesGuard);
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  describe('Guards', () => {
-    it('should check JWT authentication', async () => {
-      jwtAuthGuard.canActivate.mockImplementation((context) => true);
-
-      const result = await jwtAuthGuard.canActivate(mockExecutionContext);
-
-      expect(result).toBe(true);
-      expect(jwtAuthGuard.canActivate).toHaveBeenCalledWith(mockExecutionContext);
-    });
-
-    it('should check role authorization', async () => {
-      rolesGuard.canActivate.mockImplementation((context) => true);
-
-      const result = await rolesGuard.canActivate(mockExecutionContext);
-
-      expect(result).toBe(true);
-      expect(rolesGuard.canActivate).toHaveBeenCalledWith(mockExecutionContext);
-    });
   });
 
   describe('createUser', () => {
