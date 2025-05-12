@@ -1,5 +1,5 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { ValidationPipe, Logger } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
@@ -10,6 +10,7 @@ import { ValidationPipe as CustomValidationPipe } from './shared/pipes/validatio
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
+  const logger = new Logger('Bootstrap');
 
   // Global Pipes
   app.useGlobalPipes(
@@ -42,9 +43,9 @@ async function bootstrap() {
   await app.listen(port);
 
   // Log server info
-  const logger = app.get('NestLogger');
-  logger.log(`Application is running on: ${await app.getUrl()}`);
-  logger.log(`Swagger documentation is available at: ${await app.getUrl()}/api`);
+  const serverUrl = await app.getUrl();
+  logger.log(`Application is running on: ${serverUrl}`);
+  logger.log(`Swagger documentation is available at: ${serverUrl}/api`);
 }
 
 bootstrap();
